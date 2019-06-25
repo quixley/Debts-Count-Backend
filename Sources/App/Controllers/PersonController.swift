@@ -7,21 +7,21 @@
 
 import Vapor
 
-/// Controls basic CRUD operations on `Todo`s.
+/// Controls basic CRUD operations on `Person`s.
 final class PersonController {
-    /// Returns a list of all `Todo`s.
+    /// Returns a list of all `Person`s.
     func index(_ req: Request) throws -> Future<[Person]> {
         return Person.query(on: req).all()
     }
     
-    /// Saves a decoded `Todo` to the database.
+    /// Saves a decoded `Person` to the database.
     func create(_ req: Request) throws -> Future<Person> {
         return try req.content.decode(Person.self).flatMap { person in
             return person.save(on: req)
         }
     }
     
-    /// Deletes a parameterized `Todo`.
+    /// Deletes a parameterized `Person`.
     func delete(_ req: Request) throws -> Future<HTTPStatus> {
         return try req.parameters.next(Person.self).flatMap { person in
             return person.delete(on: req)
