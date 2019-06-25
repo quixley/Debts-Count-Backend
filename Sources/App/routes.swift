@@ -17,4 +17,11 @@ public func routes(_ router: Router) throws {
     router.get("todos", use: todoController.index)
     router.post("todos", use: todoController.create)
     router.delete("todos", Todo.parameter, use: todoController.delete)
+    
+    // Example of configuring a controller
+    let peopleController = PersonController()
+    router.get("people", use: peopleController.index)
+    router.post("people", use: peopleController.create)
+    router.delete("people", Person.parameter, use: peopleController.delete)
+    
 }
