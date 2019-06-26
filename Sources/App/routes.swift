@@ -21,7 +21,7 @@ public func routes(_ router: Router) throws {
     // Example of configuring a controller
     let peopleController = PersonController()
     router.get("people", "list", use: peopleController.list)
-    router.get("people", use: peopleController.single)
+    router.get("people", Int.parameter, use: peopleController.single)
     router.post("people", use: peopleController.create)
     router.delete("people", Person.parameter, use: peopleController.delete)
     

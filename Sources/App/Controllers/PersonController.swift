@@ -9,6 +9,7 @@
 import Vapor
 import Fluent
 
+
 enum NetworkError: Error {
     case badRequestForUser
 }
@@ -20,13 +21,17 @@ final class PersonController {
         return Person.query(on: req).all()
     }
     
-    func single(_ req: Request) throws -> Future<[Person]> {
-        guard let personId = req.query[Int.self, at:"id"] else {
-            throw Abort(.badRequest, reason: "Please provide 'id' paramenter for person")
+    func single(_ req: Request) throws -> Future<Person> {
+        guard let personId = try? req.parameters.next(Int.self) else {
+            throw Abort(.notFound)
         }
-        return Person.query(on: req).group(.or) { query in
-            query.filter(\.id == personId)
-        }.all()
+        
+        return Person.find(personId, on:req).flatMap(to: Person.self) { person in
+            guard let person = person else {
+                throw Abort(.notFound)
+            }
+            return person.update(on: req)
+        }
     }
     
     /// Saves a decoded `Person` to the database.
