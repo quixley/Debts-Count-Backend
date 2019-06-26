@@ -14,10 +14,12 @@ final class Person: SQLiteModel {
     
     /// The unique identifier for this `Todo`.
     var name: String
+    var relation:String?
     
-    init(id: Int? = nil, name: String) {
+    init(id: Int? = nil, name: String, relation:String? = nil) {
         self.id = id
         self.name = name
+        self.relation = relation
     }
 }
 
@@ -29,3 +31,9 @@ extension Person: Content { }
 
 /// Allows `Person` to be used as a dynamic parameter in route definitions.
 extension Person: Parameter { }
+
+extension Person {
+    var debts: Children<Person, Debt> {
+        return children(\.ownerId)
+    }
+}

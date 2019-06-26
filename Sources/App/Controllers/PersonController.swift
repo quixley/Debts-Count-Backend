@@ -5,18 +5,33 @@
 //  Created by Artur Akvelon on 25.06.2019.
 //
 
+
 import Vapor
+import Fluent
+
+enum NetworkError: Error {
+    case badRequestForUser
+}
 
 /// Controls basic CRUD operations on `Person`s.
 final class PersonController {
     /// Returns a list of all `Person`s.
-    func index(_ req: Request) throws -> Future<[Person]> {
+    func list(_ req: Request) throws -> Future<[Person]> {
         return Person.query(on: req).all()
+    }
+    
+    func single(_ req: Request) throws -> Future<[Person]> {
+        guard let personId = req.query[Int.self, at:"id"] else {
+            throw Abort(.badRequest, reason: "Please provide 'id' paramenter for person")
+        }
+        return Person.query(on: req).group(.or) { query in
+            query.filter(\.id == personId)
+        }.all()
     }
     
     /// Saves a decoded `Person` to the database.
     func create(_ req: Request) throws -> Future<Person> {
-        return try req.content.decode(Person.self).flatMap { person in
+        return try req.content.decode(Person.self).flatMap(to:Person.self) { person in
             return person.save(on: req)
         }
     }
@@ -26,5 +41,53 @@ final class PersonController {
         return try req.parameters.next(Person.self).flatMap { person in
             return person.delete(on: req)
             }.transform(to: .ok)
+    }
+}
+
+public extension Future where Expectation: OptionalType {
+    /// Unwraps an optional value contained inside a Future's expectation.
+    /// If the optional resolves to `nil` (`.none`), the supplied error will be thrown instead.
+    func unwrap(or error: Error) -> Future<Expectation.WrappedType> {
+        return map(to: Expectation.WrappedType.self) { optional in
+            guard let wrapped = optional.wrapped else {
+                throw error
+            }
+            return wrapped
+        }
+    }
+}
+
+/// Capable of being represented by an optional wrapped type.
+///
+/// This protocol mostly exists to allow constrained extensions on generic
+/// types where an associatedtype is an `Optional<T>`.
+public protocol OptionalType {
+    /// Underlying wrapped type.
+    associatedtype WrappedType
+
+    /// Returns the wrapped type, if it exists.
+    var wrapped: WrappedType? { get }
+
+    /// Creates this optional type from an optional wrapped type.
+    static func makeOptionalType(_ wrapped: WrappedType?) -> Self
+}
+
+/// Conform concrete optional to `OptionalType`.
+/// See `OptionalType` for more information.
+extension Optional: OptionalType {
+    /// See `OptionalType.WrappedType`
+    public typealias WrappedType = Wrapped
+
+    /// See `OptionalType.wrapped`
+    public var wrapped: Wrapped? {
+        switch self {
+        case .none: return nil
+        case .some(let w): return w
+        }
+    }
+
+    /// See `OptionalType.makeOptionalType`
+    public static func makeOptionalType(_ wrapped: Wrapped?) -> Optional<Wrapped> {
+        return wrapped
     }
 }
