@@ -10,7 +10,6 @@ import Vapor
 
 /// A single entry of a Todo list.
 final class Debt: SQLiteModel {
-    
     static var defaultDatabase: DatabaseIdentifier<SQLiteDatabase>? = .sqlite
     
     var id: Int?
