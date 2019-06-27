@@ -19,11 +19,11 @@ final class Debt: SQLiteModel {
     var description:String
     var ownerId:Int = -1
     
-    init(id: Int? = nil, value:Decimal, description:String, ownerId:Int = -1) {
+    init(id: Int? = nil, value:Decimal, description:String, ownerId:Int?) {
         self.id = id
         self.value = value
         self.description = description
-        self.ownerId = ownerId
+        self.ownerId = ownerId ?? -1
     }
 }
 
@@ -33,8 +33,9 @@ extension Debt: Content { }
 
 extension Debt: Parameter { }
 
+
 extension Debt {
-    var galaxy: Parent<Debt, Person> {
+    var owner: Parent<Debt, Person> {
         return parent(\.ownerId)
     }
 }

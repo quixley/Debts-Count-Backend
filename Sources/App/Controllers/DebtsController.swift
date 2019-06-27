@@ -20,6 +20,10 @@ final class DebtsController {
     func create(_ req: Request) throws -> Future<Debt> {
         let personId = try req.query.get(Int.self, at: ["personId"])
         
+        var dict = req.content.syncDecode(Dictionary<String, String>.self)
+        
+        
+        
         return try req.content.decode(Debt.self).flatMap(to:Debt.self) { debt in
             debt.ownerId = personId
             return debt.save(on: req)
