@@ -10,13 +10,16 @@ import Vapor
 
 /// A single entry of a Todo list.
 final class Debt: SQLiteModel {
+    
+    static var defaultDatabase: DatabaseIdentifier<SQLiteDatabase>? = .sqlite
+    
     var id: Int?
     
     var value:Decimal
     var description:String
-    var ownerId:Int
+    var ownerId:Int = -1
     
-    init(id: Int? = nil, value:Decimal, description:String, ownerId:Int) {
+    init(id: Int? = nil, value:Decimal, description:String, ownerId:Int = -1) {
         self.id = id
         self.value = value
         self.description = description
@@ -24,14 +27,13 @@ final class Debt: SQLiteModel {
     }
 }
 
-extension Debt: Migration { }
+extension Debt: SQLiteMigration { }
 
 extension Debt: Content { }
 
 extension Debt: Parameter { }
 
 extension Debt {
-    // this planet's related galaxy
     var galaxy: Parent<Debt, Person> {
         return parent(\.ownerId)
     }

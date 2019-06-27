@@ -25,4 +25,8 @@ public func routes(_ router: Router) throws {
     router.post("people", use: peopleController.create)
     router.delete("people", Person.parameter, use: peopleController.delete)
     
+    let debtsController = DebtsController()
+    router.get("debts", "list", use: debtsController.index)
+    router.post("debts", use: debtsController.create)
+    
 }
