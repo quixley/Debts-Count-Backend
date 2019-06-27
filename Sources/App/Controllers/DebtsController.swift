@@ -10,7 +10,7 @@ import Fluent
 
 final class DebtsController {
     /// Returns a list of all `Person`s.
-    func index(_ req: Request) throws -> Future<[Debt]> {
+    func list(_ req: Request) throws -> Future<[Debt]> {
         
         let personId = try req.parameters.next(Int.self)
         return Debt.query(on: req).filter(\.ownerId == personId).all()
@@ -18,10 +18,9 @@ final class DebtsController {
     
     /// Saves a decoded `Person` to the database.
     func create(_ req: Request) throws -> Future<Debt> {
-        let personId = try req.query.get(Int.self, at: ["personId"])
         
-        
-        
+//        let personId = try req.query.get(Int.self, at: ["personId"])
+        let personId = try req.parameters.next(Int.self)
         return try req.content.decode(Debt.self).flatMap(to:Debt.self) { debt in
             debt.ownerId = personId
             return debt.save(on: req)

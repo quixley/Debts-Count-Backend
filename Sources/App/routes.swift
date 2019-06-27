@@ -26,7 +26,7 @@ public func routes(_ router: Router) throws {
     router.delete("people", Person.parameter, use: peopleController.delete)
     
     let debtsController = DebtsController()
-    router.get("people", Int.parameter, "debts", use: debtsController.index)
-    router.post("debts", use: debtsController.create)
+    router.get("people", Int.parameter, "debts", use: debtsController.list)
+    router.post("people", Int.parameter, "debts" use: debtsController.create)
     
 }
