@@ -12,15 +12,13 @@ final class DebtsController {
     /// Returns a list of all `Person`s.
     func index(_ req: Request) throws -> Future<[Debt]> {
         
-        let personId = try req.query.get(Int.self, at: ["personId"])
+        let personId = try req.parameters.next(Int.self)
         return Debt.query(on: req).filter(\.ownerId == personId).all()
     }
     
     /// Saves a decoded `Person` to the database.
     func create(_ req: Request) throws -> Future<Debt> {
         let personId = try req.query.get(Int.self, at: ["personId"])
-        
-        var dict = req.content.syncDecode(Dictionary<String, String>.self)
         
         
         
