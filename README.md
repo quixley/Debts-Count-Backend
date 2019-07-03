@@ -85,7 +85,7 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     }
     ```
     
-    5. /people/:personId - DELETE.
+5. /people/:personId - DELETE.
     Deletes individual person
     
     Path parameters:
@@ -94,7 +94,7 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Response:
     Status code 200
     
-    6. /debts/:debtId - DELETE
+6. /debts/:debtId - DELETE
     Deletes individual debt
     
     Path parameters:
