@@ -29,10 +29,10 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     - name: String
     - relation: String (optional)
     
-    Response:
+    Response example:
     ```
     {
-        "id": Int,
+        "id": 1,
         "name": "SomeName2",
         "relation": "Relation"
     }
