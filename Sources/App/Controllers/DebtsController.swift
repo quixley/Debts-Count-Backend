@@ -21,6 +21,12 @@ final class DebtsController {
         
 //        let personId = try req.query.get(Int.self, at: ["personId"])
         let personId = try req.parameters.next(Int.self)
+//        let decoder = JSONDecoder()
+        
+//        let dateFormatter = DateFormatter()
+//        dateFormatter.dateFormat = "yyyy-MM-dd"
+//        decoder.dateDecodingStrategy = .formatted(dateFormatter)
+        
         return try req.content.decode(Debt.self).flatMap(to:Debt.self) { debt in
             debt.ownerId = personId
             return debt.save(on: req)
@@ -29,7 +35,7 @@ final class DebtsController {
     
     /// Deletes a parameterized `Person`.
     func delete(_ req: Request) throws -> Future<HTTPStatus> {
-        return try req.parameters.next(Person.self).flatMap { debt in
+        return try req.parameters.next(Debt.self).flatMap { debt in
             return debt.delete(on: req)
             }.transform(to: .ok)
     }

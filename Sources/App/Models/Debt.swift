@@ -17,12 +17,15 @@ final class Debt: SQLiteModel {
     var value:Decimal
     var description:String
     var ownerId:Int?
+    var date:Date
     
-    init(id: Int? = nil, value:Decimal, description:String, ownerId:Int?) {
+    
+    init(id: Int? = nil, value:Decimal, description:String, date:Date, ownerId:Int?) {
         self.id = id
         self.value = value
         self.description = description
         self.ownerId = ownerId
+        self.date = date
     }
 }
 
