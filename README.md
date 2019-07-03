@@ -1,20 +1,100 @@
-<p align="center">
-    <img src="https://user-images.githubusercontent.com/1342803/36623515-7293b4ec-18d3-11e8-85ab-4e2f8fb38fbd.png" width="320" alt="API Template">
-    <br>
-    <br>
-    <a href="http://docs.vapor.codes/3.0/">
-        <img src="http://img.shields.io/badge/read_the-docs-2196f3.svg" alt="Documentation">
-    </a>
-    <a href="https://discord.gg/vapor">
-        <img src="https://img.shields.io/discord/431917998102675485.svg" alt="Team Chat">
-    </a>
-    <a href="LICENSE">
-        <img src="http://img.shields.io/badge/license-MIT-brightgreen.svg" alt="MIT License">
-    </a>
-    <a href="https://circleci.com/gh/vapor/api-template">
-        <img src="https://circleci.com/gh/vapor/api-template.svg?style=shield" alt="Continuous Integration">
-    </a>
-    <a href="https://swift.org">
-        <img src="http://img.shields.io/badge/swift-4.1-brightgreen.svg" alt="Swift 4.1">
-    </a>
-</p>
+# API
+
+## Endpoints
+
+All endpoints has one shared base URL: 'https://apiakvelondebts-prod.vapor.cloud'
+
+1. /people - GET
+    Returns list of people.
+    
+    Respnse example:
+    [
+        {
+            "id": 1,
+            "name": "SomeName1"
+        },
+        {
+            "id": 2,
+            "name": "SomeName2",
+            "relation": "Relation"
+            }
+    ]
+    
+2. /people - POST
+    Creates and returns new person.
+    
+    Body parameters:
+    - name: String
+    - relation: String (optional)
+    
+    Response:
+    {
+        "id": Int,
+        "name": "SomeName2",
+        "relation": "Relation"
+    }
+
+3. /people/:personId/debts - GET
+    Returns a list of debts for selected person
+    
+    Path parameters:
+    personId: Int - Person identifier
+    
+    Response example:
+    [
+        {
+            "id": 1,
+            "value": 400,
+            "ownerId": 1,
+            "description": "For coffee in Starbucks",
+            "date": "2019-07-03T12:20:40Z"
+        },
+        {
+            "id": 2,
+            "value": 300,
+            "ownerId": 1,
+            "date": "2019-07-03T12:20:40Z"
+        }
+    ]
+
+4. /people/:personId/debts - POST
+    Creates a new debt for selected person.
+    
+    Path parameters:
+    personId: Int - Person identifier
+    
+    Body parameters:
+    value: Int
+    date: Double
+    description: String (optional)
+    
+    Response example:
+    {
+        "ownerId": 1,
+        "id": 2,
+        "value": 400,
+        "date": "2019-07-03T12:20:40Z",
+        "description": "For coffee in Starbucks "
+    }
+    
+    5. /people/:personId - DELETE
+    Deletes individual person
+    
+    Path parameters:
+    personId: Int - Person identifier
+    
+    Response:
+    Status code 200
+    
+    6. /debts/:debtId - DELETE
+    Deletes individual debt
+    
+    Path parameters:
+    debtId: Int - Debt identifier
+    
+    Response:
+    Status code 200
+    
+### Notice:
+For all endpoints please following headers: 
+"Content-Type": "application/x-www-form-urlencoded"
