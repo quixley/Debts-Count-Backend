@@ -18,16 +18,13 @@ final class Person: SQLiteModel {
     /// The unique identifier for this `Todo`.
     var name: String
     var relation:String?
-    var avatar:String?  {
-        get {
-            return id != nil ? "image/\(id!)" : nil
-        }
-    }
+    var avatarURL:String?
     
-    init(id: Int? = nil, name: String, relation:String? = nil, avatar:Data? = nil) {
+    init(id: Int? = nil, name: String, relation:String? = nil, avatarURL:String? = nil) {
         self.id = id
         self.name = name
         self.relation = relation
+        self.avatarURL = avatarURL
     }
     
 }

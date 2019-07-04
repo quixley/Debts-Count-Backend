@@ -103,6 +103,7 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Response:
     Status code 200
     
+
 ### Notice:
 For all endpoints please following headers: 
 "Content-Type": "application/x-www-form-urlencoded"
