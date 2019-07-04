@@ -8,8 +8,8 @@
 import Foundation
 
 struct DocumentsManager {
-    public static func getDocumentsDirectory() -> URL {
-        let paths = FileManager.default.urls(for: .documentDirectory, in: .userDomainMask)
-        return paths[0]
+    public static func getDocumentsDirectory() throws -> URL {
+        let path = try FileManager.default.url(for: .documentDirectory, in: .userDomainMask, appropriateFor: nil, create: true)
+        return path
     }
 }

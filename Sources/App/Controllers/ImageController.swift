@@ -16,7 +16,7 @@ struct ImageController {
         // add controller code here
         // to determine which image is returned
         let path = try request.parameters.next(String.self)
-        let fileUrl = DocumentsManager.getDocumentsDirectory().appendingPathComponent(path + ".png")
+        let fileUrl = try DocumentsManager.getDocumentsDirectory().appendingPathComponent(path + ".png")
         
         do {
             let data = try Data(contentsOf: fileUrl)
@@ -28,12 +28,14 @@ struct ImageController {
             return response
         }
     }
+    
+    
     func postImage(_ req: Request) throws -> Response {
         guard let fileData = req.http.body.data else { throw Abort(.notFound) }
         
         let imageID = UUID().uuidString
         
-        let filename = DocumentsManager.getDocumentsDirectory().appendingPathComponent("\(imageID).png")
+        let filename = try DocumentsManager.getDocumentsDirectory().appendingPathComponent("\(imageID).png")
         
         do {
             try fileData.write(to: filename, options: [.atomic])
