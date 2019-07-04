@@ -17,8 +17,9 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
         {
             "id": 2,
             "name": "SomeName2",
-            "relation": "Relation"
-            }
+            "relation": "Relation",
+            "avatar": "$BASE_URL/path/to/image/got/from/posting/image"
+        }
     ]
     ```
     
@@ -28,13 +29,15 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Body parameters:
     - name: String
     - relation: String (optional)
+    - avatar: String (optional)
     
     Response example:
     ```
     {
         "id": 1,
         "name": "SomeName2",
-        "relation": "Relation"
+        "relation": "Relation",
+        "avatar": "$BASE_URL/path/to/image/got/from/posting/image"
     }
     ```
 
@@ -103,6 +106,15 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Response:
     Status code 200
     
+7. /image - POST
+    Uploads an image to server. Body type should be binary
+    
+    Response:
+    
+    ```
+    "url": String // (Uploaded image accessible from this url)
+    ```
+
 
 ### Notice:
 For all endpoints please following headers: 

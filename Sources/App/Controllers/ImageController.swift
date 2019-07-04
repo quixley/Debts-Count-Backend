@@ -30,6 +30,7 @@ struct ImageController {
     }
     func postImage(_ req: Request) throws -> Response {
         guard let fileData = req.http.body.data else { throw Abort(.notFound) }
+        
         let imageID = UUID().uuidString
         
         let filename = DocumentsManager.getDocumentsDirectory().appendingPathComponent("\(imageID).png")
@@ -39,11 +40,30 @@ struct ImageController {
         } catch {
             throw Abort(HTTPResponseStatus.conflict)
         }
-        let responseObj = ["path":"image/\(imageID)"]
+        let uriString = req.http.uri ?? ""
+        let finalURLString = uriString + "/image/" + imageID
+        let responseObj = ["url":finalURLString]
         let body = try JSONEncoder().encode(responseObj)
+        
         return Response(http: HTTPResponse(status:.ok, body:body), using: req)
     }
     
     
     
+}
+
+extension HTTPRequest {
+    var host:String? {
+        return headers["Host"].first
+    }
+    
+    var scheme:String? {
+        return description.components(separatedBy: "\n").first?
+            .components(separatedBy: " ").last?
+            .components(separatedBy: "/").first?.lowercased()
+    }
+    
+    var uri:String? {
+        return [scheme, host].compactMap{ $0 }.joined(separator: "://")
+    }
 }
