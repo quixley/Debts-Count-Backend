@@ -37,6 +37,6 @@ extension Person: Parameter { }
 
 extension Person {
     var debts: Children<Person, Debt> {
-        return children(\.ownerId)
+        return children(\.personId)
     }
 }

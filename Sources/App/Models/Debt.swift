@@ -16,15 +16,15 @@ final class Debt: SQLiteModel {
     
     var value:Decimal
     var description:String
-    var ownerId:Int?
+    var personId:Int?
     var date:Date
     
     
-    init(id: Int? = nil, value:Decimal, description:String, date:Date, ownerId:Int?) {
+    init(id: Int? = nil, value:Decimal, description:String, date:Date, personId:Int?) {
         self.id = id
         self.value = value
         self.description = description
-        self.ownerId = ownerId
+        self.personId = personId
         self.date = date
     }
 }
@@ -38,6 +38,6 @@ extension Debt: Parameter { }
 
 extension Debt {
     var owner: Parent<Debt, Person>? {
-        return parent(\.ownerId)
+        return parent(\.personId)
     }
 }

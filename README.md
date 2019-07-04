@@ -50,14 +50,14 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
         {
             "id": 1,
             "value": 400,
-            "ownerId": 1,
+            "personId": 1,
             "description": "For coffee in Starbucks",
             "date": "2019-07-03T12:20:40Z"
         },
         {
             "id": 2,
             "value": 300,
-            "ownerId": 1,
+            "personId": 1,
             "date": "2019-07-03T12:20:40Z"
         }
     ]
@@ -77,7 +77,7 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Response example:
     ```
     {
-        "ownerId": 1,
+        "personId": 1,
         "id": 2,
         "value": 400,
         "date": "2019-07-03T12:20:40Z",

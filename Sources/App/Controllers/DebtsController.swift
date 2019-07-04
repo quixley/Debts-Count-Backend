@@ -13,7 +13,7 @@ final class DebtsController {
     func list(_ req: Request) throws -> Future<[Debt]> {
         
         let personId = try req.parameters.next(Int.self)
-        return Debt.query(on: req).filter(\.ownerId == personId).all()
+        return Debt.query(on: req).filter(\.personId == personId).all()
     }
     
     /// Saves a decoded `Person` to the database.
@@ -21,22 +21,33 @@ final class DebtsController {
         
 //        let personId = try req.query.get(Int.self, at: ["personId"])
         let personId = try req.parameters.next(Int.self)
-//        let decoder = JSONDecoder()
-        
-//        let dateFormatter = DateFormatter()
-//        dateFormatter.dateFormat = "yyyy-MM-dd"
-//        decoder.dateDecodingStrategy = .formatted(dateFormatter)
         
         return try req.content.decode(Debt.self).flatMap(to:Debt.self) { debt in
-            debt.ownerId = personId
+            debt.personId = personId
             return debt.save(on: req)
         }
     }
     
     /// Deletes a parameterized `Person`.
     func delete(_ req: Request) throws -> Future<HTTPStatus> {
-        return try req.parameters.next(Debt.self).flatMap { debt in
-            return debt.delete(on: req)
-            }.transform(to: .ok)
+        
+        guard let personIdString = req.parameters.values.first?.value,
+            let personId = Int(personIdString) else { throw Abort(.notFound) }
+        
+        guard let debtIdString = req.parameters.values.last?.value,
+            let debtId = Int(debtIdString) else { throw Abort(.notFound) }
+        
+        return Debt.find(debtId, on:req).flatMap(to: Debt.self) { debt in
+            guard let debt = debt,
+                let ownerId = debt.personId else {
+                throw Abort(.notFound)
+            }
+            
+            if ownerId != personId {
+                throw Abort(.conflict)
+            }
+            return debt.update(on: req)
+        }.delete(on: req).transform(to: .ok)
+        
     }
 }
