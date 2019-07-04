@@ -94,10 +94,11 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Response:
     Status code 200
     
-6. /debts/:debtId - DELETE
+6. /people/:personId/debts/:debtId - DELETE
     Deletes individual debt
     
     Path parameters:
+    - personId: Int. Debt holder identifier
     - debtId: Int. Debt identifier
     
     Response:
