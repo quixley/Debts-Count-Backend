@@ -10,6 +10,7 @@ import Vapor
 import Fluent
 
 
+
 enum NetworkError: Error {
     case badRequestForUser
 }
@@ -19,6 +20,23 @@ final class PersonController {
     /// Returns a list of all `Person`s.
     func list(_ req: Request) throws -> Future<[Person]> {
         return Person.query(on: req).all()
+        /*
+        return Person.query(on: req).all().map { people -> [PersonContext] in
+            let cont = try people.compactMap { person -> PersonContext in
+                guard let personId = person.id else { throw Abort(.notFound) }
+                let debts = Debt.query(on: req).filter(\.personId == personId).all()
+                let sum = debts.map { $0.reduce(0) { $1.value + $0} }
+                
+                var personContext = PersonContext(person: person)
+                let newCont = sum.map { value in
+                    personContext.value = value
+                }
+                
+                return personContext
+            }
+            return cont
+        }
+         */
     }
     
     func single(_ req: Request) throws -> Future<Person> {
@@ -37,6 +55,7 @@ final class PersonController {
     /// Saves a decoded `Person` to the database.
     func create(_ req: Request) throws -> Future<Person> {
         return try req.content.decode(Person.self).flatMap(to:Person.self) { person in
+            person.total = 0
             return person.save(on: req)
         }
     }

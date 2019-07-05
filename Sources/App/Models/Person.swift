@@ -19,18 +19,27 @@ final class Person: SQLiteModel {
     var name: String
     var relation:String?
     var avatar:String?
+    var total:Decimal?
     
-    init(id: Int? = nil, name: String, relation:String? = nil, avatar:String? = nil) {
+    init(id: Int? = nil, name: String, relation:String? = nil, avatar:String? = nil, total:Decimal? = 0) {
         self.id = id
         self.name = name
         self.relation = relation
         self.avatar = avatar
+        self.total = total ?? 0
     }
     
 }
 
 /// Allows `Person` to be used as a dynamic migration.
-extension Person: SQLiteMigration { }
+extension Person: SQLiteMigration {
+//    static func prepare(on conn: SQLiteConnection) -> Future<Void> {
+//        return SQLiteDatabase.update(Person.self, on: conn) { builder in
+//            let defaultValueConstraint = SQLiteColumnConstraint.default(.literal(0))
+//            builder.field(for: \.total, type: .integer, defaultValueConstraint)
+//        }
+//    }
+}
 
 /// Allows `Person` to be encoded to and decoded from HTTP messages.
 extension Person: Content { }

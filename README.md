@@ -12,13 +12,15 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     [
         {
             "id": 1,
-            "name": "SomeName1"
+            "name": "SomeName1",
+            'total": 0
         },
         {
             "id": 2,
             "name": "SomeName2",
             "relation": "Relation",
-            "avatar": "$BASE_URL/path/to/image/got/from/posting/image"
+            "avatar": "$BASE_URL/path/to/image/got/from/posting/image",
+            "total": -2300
         }
     ]
     ```
@@ -37,7 +39,8 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
         "id": 1,
         "name": "SomeName2",
         "relation": "Relation",
-        "avatar": "$BASE_URL/path/to/image/got/from/posting/image"
+        "avatar": "$BASE_URL/path/to/image/got/from/posting/image",
+        "total": 0
     }
     ```
 
