@@ -13,6 +13,7 @@ final class DebtsController {
     func list(_ req: Request) throws -> Future<[Debt]> {
         
         let personId = try req.parameters.next(Int.self)
+        
         return Debt.query(on: req).filter(\.personId == personId).all()
     }
     
@@ -24,6 +25,11 @@ final class DebtsController {
         
         return try req.content.decode(Debt.self).flatMap(to:Debt.self) { debt in
             debt.personId = personId
+            let _ = Person.find(personId, on: req).map { person in
+                guard let person = person else { return }
+                person.total = person.total != nil ? person.total! + debt.value : debt.value
+                let _ = person.save(on: req)
+            }
             return debt.save(on: req)
         }
     }

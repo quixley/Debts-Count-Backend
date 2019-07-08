@@ -12,13 +12,16 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     [
         {
             "id": 1,
-            "name": "SomeName1"
+            "name": "SomeName1",
+            'total": 0
         },
         {
             "id": 2,
             "name": "SomeName2",
-            "relation": "Relation"
-            }
+            "relation": "Relation",
+            "avatar": "https://some/url/path/to/image",
+            "total": -2300
+        }
     ]
     ```
     
@@ -28,13 +31,16 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Body parameters:
     - name: String
     - relation: String (optional)
+    - avatar: String (optional)
     
     Response example:
     ```
     {
         "id": 1,
         "name": "SomeName2",
-        "relation": "Relation"
+        "relation": "Relation",
+        "avatar": "IMAGE_URL_FORM_IMAGE_POST_API",
+        "total": 0
     }
     ```
 
@@ -104,6 +110,16 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
     Response:
     Status code 200
     
+7. /image - POST
+    Uploads an image to server. Body type should be binary
+    
+    Response:
+    
+    ```
+    "url": String // (Uploaded image accessible from this url)
+    ```
+
+
 ### Notice:
 For all endpoints please following headers: 
 "Content-Type": "application/x-www-form-urlencoded"

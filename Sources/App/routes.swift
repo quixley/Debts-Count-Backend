@@ -13,4 +13,8 @@ public func routes(_ router: Router) throws {
     router.get("people", Int.parameter, "debts", use: debtsController.list)
     router.post("people", Int.parameter, "debts", use: debtsController.create)
     router.delete("people", Int.parameter, "debts", Debt.parameter, use: debtsController.delete)
+    
+    let imageController = ImageController()
+    router.get("image", String.parameter, use: imageController.getImage)
+    router.post("image", use: imageController.postImage)
 }

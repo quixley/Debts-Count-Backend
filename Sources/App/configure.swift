@@ -5,7 +5,7 @@ import Vapor
 public func configure(_ config: inout Config, _ env: inout Environment, _ services: inout Services) throws {
     // Register providers first
     
-    let serverConfigure = NIOServerConfig.default(hostname: "0.0.0.0", port: 9090)
+    let serverConfigure = NIOServerConfig.default(hostname: "0.0.0.0", port: 1010)
     services.register(serverConfigure)
     
     try services.register(FluentSQLiteProvider())
