@@ -19,7 +19,7 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
             "id": 2,
             "name": "SomeName2",
             "relation": "Relation",
-            "avatar": "$BASE_URL/path/to/image/got/from/posting/image",
+            "avatar": "https://some/url/path/to/image",
             "total": -2300
         }
     ]
@@ -39,7 +39,7 @@ Base URL is a top secret stuff. If you are the one who refers to that API, chanc
         "id": 1,
         "name": "SomeName2",
         "relation": "Relation",
-        "avatar": "$BASE_URL/path/to/image/got/from/posting/image",
+        "avatar": "IMAGE_URL_FORM_IMAGE_POST_API",
         "total": 0
     }
     ```
